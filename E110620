@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<title>Igreja Emanuel – Jantar dos Namorados</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {
+    background: #ffe6f0 url('https://www.transparenttextures.com/patterns/pw_maze_white.png');
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0; padding: 0;
+  }
+  header {
+    background: #ff3366;
+    color: white;
+    text-align: center;
+    padding: 20px 10px;
+    font-size: 1.8em;
+    font-family: 'Georgia', serif;
+  }
+  .container {
+    max-width: 500px;
+    margin: 20px auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+  }
+  label { font-weight: bold; display: block; margin-top: 12px; }
+  input, select { width: 100%; padding: 8px; margin-top: 4px; border: 1px solid #ccc; border-radius: 6px; }
+  .checkbox-group { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+  .checkbox-group label { font-weight: normal; }
+  button {
+    width: 100%; margin-top: 20px; padding: 12px; background: #ff3366;
+    border: none; border-radius: 8px; color: white; font-size: 1.1em; cursor: pointer;
+  }
+  button:hover { background: #e62e5c; }
+</style>
+</head>
+<body>
+  <header>Igreja Emanuel – Jantar dos Namorados 💕</header>
+  <div class="container">
+    <label>Nome Pessoa 1:</label><input type="text" id="nome1" />
+    <label>Nome Pessoa 2:</label><input type="text" id="nome2" />
+    <label>Nome do Casal:</label><input type="text" id="casal" />
+    <label>Mesa:</label><input type="number" id="mesa" min="1" />
+    <label>Entrada (escolha 1):</label>
+    <select id="entrada">
+      <option>Salada (Alface e Tomate)</option>
+      <option>Caldo de Mandioca</option>
+    </select>
+    <label>Prato principal:</label>
+    <select id="prato">
+      <option>Strogonoff de frango com arroz e batata palha</option>
+      <option>Panqueca de carne com arroz e batata palha</option>
+    </select>
+    <label>Bebidas (máx. 2):</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" value="Guaraná Antarctica 350ml" class="bebida"> Guaraná Antarctica 350ml</label>
+      <label><input type="checkbox" value="Sukita Laranja 350ml" class="bebida"> Sukita Laranja 350ml</label>
+      <label><input type="checkbox" value="Suco de Uva 350ml" class="bebida"> Suco de Uva 350ml</label>
+      <label><input type="checkbox" value="Suco de Laranja 350ml" class="bebida"> Suco de Laranja 350ml</label>
+    </div>
+    <label>Extras (sobremesas e refrigerantes pagos):</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" value="Torta de Limão" class="extra"> Torta de Limão (R$3,50)</label>
+      <label><input type="checkbox" value="Bolo de Cenoura" class="extra"> Bolo de Cenoura (R$3,00)</label>
+      <label><input type="checkbox" value="Bolo de Chocolate" class="extra"> Bolo de Chocolate (R$3,00)</label>
+      <label><input type="checkbox" value="Pudim" class="extra"> Pudim (R$3,00)</label>
+      <label><input type="checkbox" value="Coca-Cola lata" class="extra"> Coca‑Cola (R$6,00)</label>
+      <label><input type="checkbox" value="Guaraná Antarctica lata" class="extra"> Guaraná Antarctica (R$5,00)</label>
+      <label><input type="checkbox" value="Sukita lata" class="extra"> Sukita (R$5,00)</label>
+      <label><input type="checkbox" value="Suco pago" class="extra"> Suco (R$4,00)</label>
+    </div>
+    <button onclick="enviar()">Enviar pedido via WhatsApp</button>
+  </div>
+
+  <script>
+    function enviar() {
+      let n1 = document.getElementById('nome1').value.trim();
+      let n2 = document.getElementById('nome2').value.trim();
+      let casal = document.getElementById('casal').value.trim();
+      let mesa = document.getElementById('mesa').value.trim();
+      let entrada = document.getElementById('entrada').value;
+      let prato = document.getElementById('prato').value;
+      let bebidas = Array.from(document.querySelectorAll('.bebida:checked')).map(e=>e.value);
+      let extras = Array.from(document.querySelectorAll('.extra:checked')).map(e=>e.value);
+      if(!n1||!n2||!casal||!mesa) return alert('Preencha todos os campos!');
+      if(bebidas.length>2) return alert('No máximo 2 bebidas.');
+      let msg = `Pedido do Casal: ${casal}%0AMesa: ${mesa}%0AEntrada: ${entrada}%0APrato: ${prato}%0ABebidas (incluídas): ${bebidas.join(', ')}%0A`;
+      if(extras.length) msg += `Extras: ${extras.join(', ')}%0A`;
+      const nums = ['5511953461060','5511982839879'];
+      nums.forEach(n=>window.open(`https://api.whatsapp.com/send?phone=${n}&text=${msg}`, '_blank'));
+    }
+  </script>
+</body>
+</html>
